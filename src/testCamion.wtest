@@ -1,0 +1,63 @@
+import camion.*
+import cosas.*
+
+test "test_camion" {
+	
+	var iveco = camion
+	
+	iveco.cargar(knightRider)
+	iveco.cargar(bumblebee)
+	
+	assert.equals([knightRider, bumblebee], iveco.cosas())
+	assert.equals(2300, iveco.pesoTotal())
+	assert.equals(false, iveco.excedidoDePeso())
+	assert.equals([], iveco.objetosPeligrosos(20))
+	
+	bumblebee.transformar()
+	
+	assert.equals([bumblebee], iveco.objetosPeligrosos(20))
+	assert.equals([knightRider, bumblebee], iveco.objetosPeligrosos(5))
+	
+	assert.equals([bumblebee], iveco.objetosMasPeligrososQue(knightRider))
+	
+	assert.equals(true, iveco.puedeCircularEnRuta(50))
+	assert.equals(false, iveco.puedeCircularEnRuta(25))
+	
+}
+
+test "test_cosas" {
+	
+	paqueteLadrillos.cantidad(1500)
+	assert.equals(3000, paqueteLadrillos.peso())
+	assert.equals(2, paqueteLadrillos.nivelPeligrosidad())
+	
+	arenaGranel.peso(100)
+	assert.equals(100, arenaGranel.peso())
+	assert.equals(1, arenaGranel.nivelPeligrosidad())
+	
+	var bateria = bateriaAntiaerea
+	assert.equals(300, bateria.peso())
+	assert.equals(100, bateria.nivelPeligrosidad())
+	bateria.recargar()
+	assert.equals(200, bateria.peso())
+	assert.equals(0, bateria.nivelPeligrosidad())
+	
+	var contenedor = contenedorPortuario
+	// El contenedor está vacío
+	assert.equals(100, contenedor.peso())
+	assert.equals(0, contenedor.nivelPeligrosidad())
+	// Cargo el contenedor
+	residuosRadioactivos.peso(50000)
+	contenedor.cargar(bumblebee)
+	contenedor.cargar(arenaGranel)
+	contenedor.cargar(residuosRadioactivos)
+	
+	assert.equals(51000, contenedor.peso())
+	assert.equals(200, contenedor.nivelPeligrosidad())
+	
+	embalajeSeguridad.cosaEnvuelta(knightRider)
+	assert.equals(knightRider, embalajeSeguridad.cosaEnvuelta())
+	assert.equals(500, embalajeSeguridad.peso())
+	assert.equals(5, embalajeSeguridad.nivelPeligrosidad())
+		
+}
