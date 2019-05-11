@@ -23,6 +23,20 @@ test "test_camion" {
 	assert.equals(true, iveco.puedeCircularEnRuta(50))
 	assert.equals(false, iveco.puedeCircularEnRuta(25))
 	
+	iveco.cargar(bateriaAntiaerea)
+	residuosRadioactivos.peso(20000)
+	iveco.cargar(residuosRadioactivos)
+	
+	assert.equals(residuosRadioactivos, iveco.cosaMasPesada())
+	
+	assert.notThat(iveco.tieneAlgoQuePesaEntre(21000, 30000))
+	assert.that(iveco.tieneAlgoQuePesaEntre(450, 550))
+	
+	assert.equals(residuosRadioactivos, iveco.cosaMasPesada())
+	
+	var listaDePesos = [ 500, 800, 300, 20000 ]
+	assert.equals(listaDePesos, iveco.pesos())
+	
 }
 
 test "test_cosas" {
